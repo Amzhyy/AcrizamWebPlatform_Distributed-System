@@ -26,12 +26,13 @@ export const useOrderStore = create<OrderStore>((set) => ({
   fetchOrders: async () => {
     set({ loading: true });
     try {
-      // Joining with quotes and products to get names and images
+      // Joining with quotes to get the product_id
       const { data, error } = await supabase
         .from('orders')
         .select(`
           *,
           quotes (
+            product_id,
             products (
               name,
               image_url
@@ -42,11 +43,29 @@ export const useOrderStore = create<OrderStore>((set) => ({
 
       if (error) throw error;
       
-      const formattedOrders = (data || []).map(order => ({
-        ...order,
-        product_name: (order.quotes as any)?.products?.name || 'Pedido Personalizado',
-        image_url: (order.quotes as any)?.products?.image_url || 'https://images.unsplash.com/photo-1594913785162-e6785b4cd3d0?q=80&w=200'
-      }));
+      const formattedOrders = (data || []).map(order => {
+        const quote = order.quotes as any;
+        const productId = quote?.product_id;
+        
+        // Manual mapping for local images if the DB still has Unsplash or is missing
+        const localImages: Record<string, string> = {
+          'prod-001': '/images/Producto 1.jpg',
+          'prod-002': '/images/Producto 2.jpg',
+          'prod-003': '/images/Producto 3.jpg',
+          'prod-004': '/images/Producto 4.jpg',
+          'prod-005': '/images/Producto 5.jpg',
+          'prod-006': '/images/Producto 6.jpg',
+          'prod-007': '/images/Producto 7.jpg',
+          'prod-008': '/images/Producto 8.jpg',
+          'prod-009': '/images/Producto 9.jpg',
+        };
+
+        return {
+          ...order,
+          product_name: quote?.products?.name || 'Pedido Personalizado',
+          image_url: localImages[productId] || quote?.products?.image_url || 'https://images.unsplash.com/photo-1594913785162-e6785b4cd3d0?q=80&w=200'
+        };
+      });
 
       set({ orders: formattedOrders });
     } catch (err) {

@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { useQuoteStore } from '../../stores/useQuoteStore';
 import type { Quote } from '../../stores/useQuoteStore';
+import { useProductStore } from '../../stores/useProductStore';
 import { Card } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
 
@@ -136,6 +137,7 @@ const PaymentModal = ({ quote, onClose, onConfirm }: { quote: Quote; onClose: ()
 // ─── Main Component ───────────────────────────────────────────────────────────
 export const Quotes = () => {
   const { quotes, loading, fetchQuotes, approveAndCreateOrder } = useQuoteStore();
+  const { products } = useProductStore();
   const [selectedQuote, setSelectedQuote] = useState<Quote | null>(null);
 
   useEffect(() => {
@@ -186,6 +188,10 @@ export const Quotes = () => {
               const config = statusConfig[quote.status] ?? statusConfig.pending;
               const Icon = config.icon;
 
+              // Find the local product image by ID or Name
+              const localProduct = products.find(p => p.id === quote.product_id || p.name === quote.product?.name);
+              const productImage = localProduct?.image || quote.product?.image_url || 'https://images.unsplash.com/photo-1594913785162-e6785b4cd3d0?q=80&w=100';
+
               return (
                 <motion.div
                   key={quote.id}
@@ -198,11 +204,12 @@ export const Quotes = () => {
                       {/* Header row */}
                       <div className="flex justify-between items-start mb-6">
                         <div className="flex items-center gap-4">
-                          <div className="w-12 h-12 rounded-xl bg-slate-100 overflow-hidden shrink-0">
+                          <div className="w-12 h-12 rounded-xl bg-slate-100 overflow-hidden shrink-0 flex items-center justify-center">
                             <img
-                              src={quote.product?.image_url || 'https://images.unsplash.com/photo-1594913785162-e6785b4cd3d0?q=80&w=100'}
-                              alt={quote.product?.name}
+                              src={productImage}
+                              alt={quote.product?.name || localProduct?.name}
                               className="w-full h-full object-cover"
+                              onError={(e) => { (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1594913785162-e6785b4cd3d0?q=80&w=100'; }}
                             />
                           </div>
                           <div>

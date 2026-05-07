@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 import type { OrderStatus } from '../../stores/useOrderStore';
 import { useOrderStore } from '../../stores/useOrderStore';
+import { useProductStore } from '../../stores/useProductStore';
 import { Card } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
 
@@ -27,6 +28,7 @@ const steps: OrderStatus[] = ['diseño', 'corte', 'pulido', 'terminado', 'entreg
 
 export const Orders = () => {
   const { orders, loading, fetchOrders } = useOrderStore();
+  const { products } = useProductStore();
 
   useEffect(() => {
     fetchOrders();
@@ -59,6 +61,11 @@ export const Orders = () => {
           {orders.map((order, idx) => {
             const currentStatus = statusConfig[order.status];
             const currentStepIdx = steps.indexOf(order.status);
+            
+            // Map product image using the store or fallback
+            // order.product_name is available to match if product_id is missing from order type, but we can also match by name
+            const localProduct = products.find(p => p.name === order.product_name || (order as any).product_id === p.id);
+            const productImage = localProduct?.image || order.image_url || 'https://images.unsplash.com/photo-1594913785162-e6785b4cd3d0?q=80&w=200';
 
             return (
               <motion.div
@@ -72,8 +79,13 @@ export const Orders = () => {
                     {/* Order Top Info */}
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
                       <div className="flex items-center gap-5">
-                        <div className="w-16 h-16 rounded-2xl overflow-hidden bg-slate-100 shrink-0">
-                          <img src={order.image_url} alt={order.product_name} className="w-full h-full object-cover" />
+                        <div className="w-16 h-16 rounded-2xl overflow-hidden bg-slate-100 shrink-0 flex items-center justify-center">
+                          <img 
+                            src={productImage} 
+                            alt={order.product_name} 
+                            className="w-full h-full object-cover" 
+                            onError={(e) => { (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1594913785162-e6785b4cd3d0?q=80&w=200'; }}
+                          />
                         </div>
                         <div>
                           <div className="flex items-center gap-3 mb-1">
@@ -92,7 +104,7 @@ export const Orders = () => {
                         </div>
                         <div className="text-right">
                           <p className="text-sm text-slate-400">Total</p>
-                          <p className="text-lg font-display font-bold text-slate-900">${order.total_amount.toLocaleString()}</p>
+                          <p className="text-lg font-display font-bold text-slate-900">${(order.total_amount || 0).toLocaleString()}</p>
                         </div>
                       </div>
                     </div>

@@ -108,7 +108,7 @@ export const Overview = () => {
                           </span>
                         </td>
                         <td className="py-4 px-6 text-sm font-medium text-slate-900">
-                          ${order.total_amount.toLocaleString()}
+                          ${(order.total_amount || 0).toLocaleString()}
                         </td>
                       </tr>
                     ))}
