@@ -35,7 +35,7 @@ export const Navbar = () => {
     >
       <div className="container mx-auto px-6 max-w-7xl flex items-center justify-between">
         <Link to="/" className="flex items-center gap-2 group">
-          <img src="/logo.png" alt="Acrizam" className="h-12 w-auto object-contain drop-shadow-sm hover:drop-shadow-md transition-all duration-300" />
+          <img src="/images/logoacrizam.png" alt="Acrizam" className="h-10 w-auto object-contain drop-shadow-sm hover:drop-shadow-md transition-all duration-300" />
         </Link>
 
         {/* Desktop Nav */}

@@ -44,7 +44,7 @@ const faqs = [
     questions: [
       {
         q: '¿Realizan envíos a todo México?',
-        a: 'Sí, enviamos a toda la República Mexicana mediante paqueterías especializadas en manejo de materiales frágiles.'
+        a: 'No, por el momento únicamente realizamos entregas a nivel local.'
       },
       {
         q: '¿Cómo aseguran que las piezas no lleguen rayadas o rotas?',

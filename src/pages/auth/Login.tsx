@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, Lock, ArrowRight, Globe, Code, Loader2 } from 'lucide-react';
+import { Mail, Lock, ArrowRight, Loader2 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '../../components/ui/Button';
 import { supabase } from '../../lib/supabase';
@@ -38,7 +38,11 @@ export const Login = () => {
       }
       
       console.log('[Login] Inicio de sesión exitoso, navegando...');
-      navigate('/dashboard');
+      if (email === 'amzhyycyr@gmail.com') {
+        navigate('/admin');
+      } else {
+        navigate('/dashboard');
+      }
     } catch (err: any) {
       console.error('[Login] Error capturado:', err);
       setError(err.message || 'Error al iniciar sesión');
@@ -61,16 +65,15 @@ export const Login = () => {
         />
         <div className="relative z-20 p-20 flex flex-col justify-between h-full w-full">
           <Link to="/" className="flex items-center gap-2">
-            <div className="w-10 h-10 rounded-xl bg-white text-slate-900 flex items-center justify-center font-bold">A</div>
-            <span className="text-white font-display font-bold text-2xl tracking-tight">Acrizam</span>
+            <img src="/images/logoacrizam.png" alt="Acrizam" className="h-10 w-auto" />
           </Link>
           
           <div className="max-w-md">
             <h2 className="text-4xl font-display font-bold text-white mb-6 leading-tight">
-              Gestiona tu marca <br/> desde un solo lugar.
+              Control total de tus <br/> proyectos de acrílico.
             </h2>
             <p className="text-slate-300 text-lg">
-              Accede a tu portal de cliente para seguir tus pedidos, ver cotizaciones y descargar tus facturas.
+              Accede a tu portal para gestionar cotizaciones, seguir la producción de tus piezas y descargar tus facturas.
             </p>
           </div>
           
@@ -87,8 +90,7 @@ export const Login = () => {
         >
           <div className="lg:hidden flex justify-center mb-12">
             <Link to="/" className="flex items-center gap-2">
-              <div className="w-10 h-10 rounded-xl bg-slate-900 text-white flex items-center justify-center font-bold">A</div>
-              <span className="text-slate-900 font-display font-bold text-2xl tracking-tight">Acrizam</span>
+              <img src="/images/logoacrizam.png" alt="Acrizam" className="h-8 w-auto" />
             </Link>
           </div>
 
@@ -103,23 +105,7 @@ export const Login = () => {
             </div>
           )}
 
-          <div className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
-              <button className="flex items-center justify-center gap-2 p-3 border border-slate-200 rounded-2xl hover:bg-slate-50 transition-colors">
-                <Globe size={20} />
-                <span className="text-sm font-medium">Google</span>
-              </button>
-              <button className="flex items-center justify-center gap-2 p-3 border border-slate-200 rounded-2xl hover:bg-slate-50 transition-colors">
-                <Code size={20} />
-                <span className="text-sm font-medium">Github</span>
-              </button>
-            </div>
 
-            <div className="relative py-4 flex items-center gap-4">
-              <div className="flex-1 h-px bg-slate-100" />
-              <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">O con email</span>
-              <div className="flex-1 h-px bg-slate-100" />
-            </div>
 
             <form onSubmit={handleLogin} className="space-y-4">
               <div className="space-y-2">
@@ -159,7 +145,6 @@ export const Login = () => {
                 )}
               </Button>
             </form>
-          </div>
 
           <p className="text-center text-sm text-slate-500">
             ¿No tienes una cuenta? {' '}

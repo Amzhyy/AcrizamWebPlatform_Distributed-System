@@ -79,8 +79,7 @@ export const Register = () => {
         />
         <div className="relative z-20 p-20 flex flex-col justify-between h-full w-full">
           <Link to="/" className="flex items-center gap-2">
-            <div className="w-10 h-10 rounded-xl bg-white text-slate-900 flex items-center justify-center font-bold">A</div>
-            <span className="text-white font-display font-bold text-2xl tracking-tight">Acrizam</span>
+            <img src="/images/logoacrizam.png" alt="Acrizam" className="h-10 w-auto" />
           </Link>
           
           <div className="max-w-md">
@@ -105,8 +104,7 @@ export const Register = () => {
         >
           <div className="lg:hidden flex justify-center mb-8">
             <Link to="/" className="flex items-center gap-2">
-              <div className="w-10 h-10 rounded-xl bg-slate-900 text-white flex items-center justify-center font-bold">A</div>
-              <span className="text-slate-900 font-display font-bold text-2xl tracking-tight">Acrizam</span>
+              <img src="/images/logoacrizam.png" alt="Acrizam" className="h-8 w-auto" />
             </Link>
           </div>
 

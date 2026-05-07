@@ -1,9 +1,48 @@
+import { useState } from 'react';
 import { Mail, Phone, MapPin, Globe, Camera, User, Send } from "lucide-react";
 
 import { Button } from '../../components/ui/Button';
 import { Card } from '../../components/ui/Card';
+import { supabase } from '../../lib/supabase';
 
 export const Contact = () => {
+  const [formData, setFormData] = useState({
+    fullName: '',
+    email: '',
+    subject: '',
+    message: ''
+  });
+  const [loading, setLoading] = useState(false);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+
+    try {
+      const { error: insertError } = await supabase
+        .from('contact_messages')
+        .insert([{
+          full_name: formData.fullName,
+          email: formData.email,
+          subject: formData.subject,
+          message: formData.message
+        }]);
+
+      if (insertError) throw insertError;
+
+      setSubmitSuccess(true);
+      setFormData({ fullName: '', email: '', subject: '', message: '' });
+    } catch (err: any) {
+      console.error('Error submitting contact form:', err);
+      setError(err.message || 'Hubo un error al enviar tu mensaje. Por favor intenta de nuevo.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="pt-32 pb-20">
       <div className="container mx-auto px-6 max-w-7xl">
@@ -25,7 +64,7 @@ export const Contact = () => {
                   </div>
                   <div>
                     <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Email</p>
-                    <p className="font-medium text-slate-700">contacto@acrizam.com</p>
+                    <p className="font-medium text-slate-700">acrizam@gmail.com</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
@@ -33,8 +72,9 @@ export const Contact = () => {
                     <Phone size={24} />
                   </div>
                   <div>
-                    <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Teléfono</p>
-                    <p className="font-medium text-slate-700">+52 (55) 1234 5678</p>
+                    <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Teléfonos</p>
+                    <p className="font-medium text-slate-700">81 2209 3380</p>
+                    <p className="font-medium text-slate-700">+52 1 81 2201 8814</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
@@ -43,7 +83,7 @@ export const Contact = () => {
                   </div>
                   <div>
                     <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Ubicación</p>
-                    <p className="font-medium text-slate-700">CDMX, México</p>
+                    <p className="font-medium text-slate-700">México, Nuevo León, Mty<br/>Marquez del Risco 3040</p>
                   </div>
                 </div>
               </div>
@@ -65,29 +105,75 @@ export const Contact = () => {
           {/* Contact Form */}
           <div className="lg:col-span-2">
             <Card glass className="p-8 md:p-12">
-              <form className="grid sm:grid-cols-2 gap-6">
-                <div className="space-y-2">
-                  <label className="text-sm font-bold text-slate-700 uppercase tracking-wider">Nombre completo</label>
-                  <input type="text" className="w-full p-4 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-primary-500/20 outline-none" placeholder="Ej. Juan Pérez" />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-bold text-slate-700 uppercase tracking-wider">Correo electrónico</label>
-                  <input type="email" className="w-full p-4 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-primary-500/20 outline-none" placeholder="juan@empresa.com" />
-                </div>
-                <div className="space-y-2 sm:col-span-2">
-                  <label className="text-sm font-bold text-slate-700 uppercase tracking-wider">Asunto</label>
-                  <input type="text" className="w-full p-4 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-primary-500/20 outline-none" placeholder="Cotización masiva / Duda técnica" />
-                </div>
-                <div className="space-y-2 sm:col-span-2">
-                  <label className="text-sm font-bold text-slate-700 uppercase tracking-wider">Mensaje</label>
-                  <textarea rows={4} className="w-full p-4 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-primary-500/20 outline-none resize-none" placeholder="Cuéntanos más sobre tu proyecto..." />
-                </div>
-                <div className="sm:col-span-2 pt-4">
-                  <Button size="lg" glow className="w-full sm:w-auto">
-                    Enviar Mensaje <Send size={18} className="ml-2" />
+              {submitSuccess ? (
+                <div className="text-center py-12">
+                  <div className="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <Send size={32} />
+                  </div>
+                  <h3 className="text-2xl font-bold text-slate-900 mb-2">¡Mensaje enviado!</h3>
+                  <p className="text-slate-600 mb-8">Gracias por contactarnos. Nuestro equipo revisará tu mensaje y se pondrá en contacto contigo muy pronto.</p>
+                  <Button onClick={() => setSubmitSuccess(false)} variant="outline">
+                    Enviar otro mensaje
                   </Button>
                 </div>
-              </form>
+              ) : (
+                <form onSubmit={handleSubmit} className="grid sm:grid-cols-2 gap-6">
+                  {error && (
+                    <div className="sm:col-span-2 p-4 bg-red-50 text-red-600 rounded-2xl text-sm border border-red-100">
+                      {error}
+                    </div>
+                  )}
+                  <div className="space-y-2">
+                    <label className="text-sm font-bold text-slate-700 uppercase tracking-wider">Nombre completo</label>
+                    <input 
+                      type="text" 
+                      required
+                      value={formData.fullName}
+                      onChange={e => setFormData(p => ({...p, fullName: e.target.value}))}
+                      className="w-full p-4 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-primary-500/20 outline-none" 
+                      placeholder="Ej. Juan Pérez" 
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-bold text-slate-700 uppercase tracking-wider">Correo electrónico</label>
+                    <input 
+                      type="email" 
+                      required
+                      value={formData.email}
+                      onChange={e => setFormData(p => ({...p, email: e.target.value}))}
+                      className="w-full p-4 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-primary-500/20 outline-none" 
+                      placeholder="juan@empresa.com" 
+                    />
+                  </div>
+                  <div className="space-y-2 sm:col-span-2">
+                    <label className="text-sm font-bold text-slate-700 uppercase tracking-wider">Asunto</label>
+                    <input 
+                      type="text" 
+                      required
+                      value={formData.subject}
+                      onChange={e => setFormData(p => ({...p, subject: e.target.value}))}
+                      className="w-full p-4 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-primary-500/20 outline-none" 
+                      placeholder="Cotización masiva / Duda técnica" 
+                    />
+                  </div>
+                  <div className="space-y-2 sm:col-span-2">
+                    <label className="text-sm font-bold text-slate-700 uppercase tracking-wider">Mensaje</label>
+                    <textarea 
+                      rows={4} 
+                      required
+                      value={formData.message}
+                      onChange={e => setFormData(p => ({...p, message: e.target.value}))}
+                      className="w-full p-4 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-primary-500/20 outline-none resize-none" 
+                      placeholder="Cuéntanos más sobre tu proyecto..." 
+                    />
+                  </div>
+                  <div className="sm:col-span-2 pt-4">
+                    <Button type="submit" size="lg" glow className="w-full sm:w-auto" disabled={loading}>
+                      {loading ? 'Enviando...' : 'Enviar Mensaje'} <Send size={18} className="ml-2" />
+                    </Button>
+                  </div>
+                </form>
+              )}
             </Card>
           </div>
 

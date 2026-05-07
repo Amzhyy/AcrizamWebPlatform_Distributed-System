@@ -8,21 +8,21 @@ export default {
     extend: {
       colors: {
         primary: {
-          50: '#eff6ff',
-          100: '#dbeafe',
-          200: '#bfdbfe',
-          300: '#93c5fd',
-          400: '#60a5fa',
-          500: '#3b82f6', // Electric Blue base
-          600: '#2563eb',
-          700: '#1d4ed8',
-          800: '#1e40af',
-          900: '#1e3a8a',
-          950: '#172554',
+          50: '#fef2f2',
+          100: '#fee2e2',
+          200: '#fecaca',
+          300: '#fca5a5',
+          400: '#f87171',
+          500: '#ef4444', // Red base
+          600: '#dc2626',
+          700: '#b91c1c',
+          800: '#991b1b',
+          900: '#7f1d1d',
+          950: '#450a0a',
         },
         accent: {
-          violet: '#8b5cf6', // Soft violet
-          cyan: '#06b6d4', // Cyan glow
+          violet: '#b91c1c', // Medium red
+          cyan: '#0f172a', // Slate 900 (almost black)
         },
         background: '#ffffff',
         surface: '#f8fafc', // slate-50
@@ -33,9 +33,9 @@ export default {
         display: ['Outfit', 'system-ui', 'sans-serif'],
       },
       boxShadow: {
-        'glow-cyan': '0 0 20px -5px rgba(6, 182, 212, 0.4)',
-        'glow-violet': '0 0 20px -5px rgba(139, 92, 246, 0.4)',
-        'glow-primary': '0 0 20px -5px rgba(59, 130, 246, 0.4)',
+        'glow-cyan': '0 0 20px -5px rgba(220, 38, 38, 0.4)',
+        'glow-violet': '0 0 20px -5px rgba(153, 27, 27, 0.4)',
+        'glow-primary': '0 0 20px -5px rgba(239, 68, 68, 0.4)',
         'glass': '0 4px 30px rgba(0, 0, 0, 0.05)',
       },
       backgroundImage: {

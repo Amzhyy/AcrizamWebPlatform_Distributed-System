@@ -18,13 +18,13 @@ export const About = () => {
               Nuestra Historia
             </div>
             <h1 className="text-4xl md:text-6xl font-display font-bold text-slate-900 mb-8 leading-[1.1]">
-              Elevando el estándar del <span className="text-gradient">merchandising.</span>
+              Expertos en la transformación del <span className="text-gradient">acrílico.</span>
             </h1>
             <p className="text-lg text-slate-600 mb-6 leading-relaxed">
-              Acrizam nació con una visión clara: transformar los artículos promocionales de "objetos desechables" a piezas de diseño que las personas realmente valoren y utilicen.
+              Acrizam nació con una visión clara: brindar soluciones de alta calidad en acrílico, combinando precisión técnica con diseño estético para satisfacer las necesidades de cada proyecto.
             </p>
             <p className="text-lg text-slate-600 leading-relaxed">
-              En un mercado saturado de opciones genéricas, nos enfocamos en la calidad de los materiales, la precisión del grabado y una experiencia de usuario digital impecable para que las empresas puedan materializar su marca sin fricciones.
+              Nos especializamos en la fabricación de exhibidores, señalética, mobiliario y piezas personalizadas. Trabajamos con los mejores materiales y tecnología de punta para garantizar durabilidad y acabados impecables que resalten la identidad de nuestros clientes.
             </p>
           </motion.div>
           
@@ -34,11 +34,11 @@ export const About = () => {
             transition={{ duration: 0.8 }}
             className="relative"
           >
-            <div className="aspect-[4/5] rounded-[40px] overflow-hidden shadow-2xl">
+            <div className="aspect-[4/5] rounded-[40px] overflow-hidden shadow-2xl glass-panel p-2">
               <img 
-                src="https://images.unsplash.com/photo-1556761175-b413da4baf72?q=80&w=1200&auto=format&fit=crop" 
-                className="w-full h-full object-cover"
-                alt="Acrizam Team"
+                src="/images/logros.png" 
+                className="w-full h-full object-cover rounded-[32px]"
+                alt="Logros Acrizam"
               />
             </div>
             <div className="absolute -bottom-10 -left-10 glass-panel p-8 rounded-3xl max-w-xs shadow-xl hidden md:block">

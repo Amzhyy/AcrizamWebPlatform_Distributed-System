@@ -33,9 +33,13 @@ export const QuoteWizard = () => {
   
   const [currentStep, setCurrentStep] = useState(0);
   const [loading, setLoading] = useState(false);
+  const minDate = new Date();
+  minDate.setDate(minDate.getDate() + 5);
+  const minDateString = minDate.toISOString().split('T')[0];
+
   const [formData, setFormData] = useState({
     productId: searchParams.get('product') || '',
-    color: '#3b82f6',
+    color: '#ef4444',
     logo: null as File | null,
     quantity: 50,
     deadline: '',
@@ -197,12 +201,12 @@ export const QuoteWizard = () => {
                     <div>
                       <label className="block text-sm font-bold text-slate-700 mb-3 uppercase tracking-wider">Color del producto</label>
                       <div className="flex gap-4">
-                        {['#3b82f6', '#8b5cf6', '#06b6d4', '#1e293b', '#ef4444'].map(c => (
+                        {['#ef4444', '#b91c1c', '#000000', '#1e293b', '#ffffff'].map(c => (
                           <button
                             key={c}
                             onClick={() => setFormData({ ...formData, color: c })}
                             className={`w-10 h-10 rounded-full border-4 transition-all ${
-                              formData.color === c ? 'border-white ring-2 ring-primary-500' : 'border-transparent'
+                              formData.color === c ? 'border-slate-300 ring-2 ring-primary-500' : 'border-slate-200'
                             }`}
                             style={{ backgroundColor: c }}
                           />
@@ -249,6 +253,7 @@ export const QuoteWizard = () => {
                       <input 
                         id="deadline"
                         type="date" 
+                        min={minDateString}
                         value={formData.deadline}
                         onChange={(e) => setFormData({...formData, deadline: e.target.value})}
                         className="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-primary-500/20"

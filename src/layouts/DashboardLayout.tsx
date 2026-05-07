@@ -47,8 +47,7 @@ export const DashboardLayout = () => {
         <div className="h-16 flex items-center justify-between px-4 border-b border-slate-100">
           {sidebarOpen && (
             <Link to="/" className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-slate-900 text-white flex items-center justify-center font-bold">A</div>
-              <span className="text-slate-900 font-display font-bold tracking-tight">Acrizam</span>
+              <img src="/images/logoacrizam.png" alt="Acrizam" className="h-8 w-auto" />
             </Link>
           )}
           <button 

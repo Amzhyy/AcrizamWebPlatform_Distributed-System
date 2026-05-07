@@ -26,9 +26,7 @@ export const AdminLayout = () => {
       <aside className="w-64 bg-slate-900 text-slate-300 hidden md:flex flex-col">
         <div className="p-6">
           <Link to="/" className="flex items-center gap-2 text-white">
-            <span className="font-display font-black text-2xl tracking-tight">
-              ACRIZAM
-            </span>
+            <img src="/images/logoacrizam.png" alt="Acrizam" className="h-8 w-auto" />
             <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-primary-500/20 text-primary-400">ADMIN</span>
           </Link>
         </div>

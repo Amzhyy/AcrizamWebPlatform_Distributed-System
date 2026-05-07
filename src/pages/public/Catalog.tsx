@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, SlidersHorizontal, ArrowRight } from 'lucide-react';
 import { useProductStore } from '../../stores/useProductStore';
@@ -7,10 +8,14 @@ import { Link } from 'react-router-dom';
 
 export const Catalog = () => {
   const { products, categories, selectedCategory, setSelectedCategory } = useProductStore();
+  const [searchTerm, setSearchTerm] = useState('');
 
-  const filteredProducts = selectedCategory === 'Todos' || !selectedCategory
-    ? products
-    : products.filter(p => p.category === selectedCategory);
+  const filteredProducts = products.filter(p => {
+    const matchesCategory = selectedCategory === 'Todos' || !selectedCategory || p.category === selectedCategory;
+    const matchesSearch = p.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                          p.description.toLowerCase().includes(searchTerm.toLowerCase());
+    return matchesCategory && matchesSearch;
+  });
 
   return (
     <div className="pt-32 pb-20">
@@ -29,6 +34,8 @@ export const Catalog = () => {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
             <input 
               type="text" 
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
               placeholder="Buscar productos..." 
               className="pl-10 pr-4 py-2.5 bg-white border border-slate-200 rounded-full focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 transition-all w-full md:w-64"
             />
